@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 
 public class Banco
 {
@@ -11,23 +11,20 @@ public class Banco
 
     public void GetContas()
     {
-        var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        var fullPath = Path.Combine(path, "SapiensBank", "banco.json");
+        var fullPath = Path.Combine(Directory.GetCurrentDirectory(), "SapiensBank", "banco.json");
+
         if (File.Exists(fullPath))
         {
             var json = File.ReadAllText(fullPath);
-            var contas = JsonSerializer.Deserialize<List<Conta>>(json);
-            if (contas != null)
-            {
-                Contas = contas;
-            }
+
+            Contas = JsonSerializer.Deserialize<List<Conta>>(json) ?? Contas;
         }
     } 
 
     public void SaveContas()
     {
-        var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        var directoryPath = Path.Combine(path, "SapiensBank");
+        var directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "SapiensBank");
+
         if (!Directory.Exists(directoryPath))
         {
             Directory.CreateDirectory(directoryPath);
